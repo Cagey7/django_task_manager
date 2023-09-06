@@ -1,0 +1,7 @@
+{% for task in tasks %}
+------------------------------------------
+    <a href="{{ task.get_absolute_url }}">
+        <p>Название задания: {{ task.name }}</p>
+    </a>
+    <p>Описание задания: {{ task.description }}</p>
+{% endfor %}

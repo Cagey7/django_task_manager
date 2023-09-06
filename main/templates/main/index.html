@@ -1,0 +1,14 @@
+{% extends "main/layout.html" %}
+{% load main_tags %}
+
+{% block body %}
+    <h1>Главная страница</h1>
+    <h3>Добавить новое задание</h3>
+    <form action="">
+        <input type="text" name="name">
+        <input type="text" name="description">
+        <input type="submit">
+    </form>
+    {% get_tasks as tasks %}
+    {% show_tasks '-name' %}
+{% endblock %}
