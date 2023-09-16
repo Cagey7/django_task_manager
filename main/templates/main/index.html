@@ -4,11 +4,11 @@
 {% block body %}
     <h1>Главная страница</h1>
     <h3>Добавить новое задание</h3>
-    <form action="">
-        <input type="text" name="name">
-        <input type="text" name="description">
+    <form action="{% url 'index' %}" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
         <input type="submit">
     </form>
-    {% get_tasks as tasks %}
-    {% show_tasks '-name' %}
+
+    {% show_user_tasks request %}
 {% endblock %}

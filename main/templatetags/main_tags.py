@@ -18,3 +18,9 @@ def show_tasks(sort=None):
         tasks = Task.objects.order_by(sort)
     
     return {"tasks": tasks}
+
+
+@register.inclusion_tag("main/tasks_list.html")
+def show_user_tasks(request):
+    tasks = Task.objects.filter(user=request.user)
+    return {"tasks": tasks}

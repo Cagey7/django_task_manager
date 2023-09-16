@@ -2,4 +2,14 @@
 
 {% block body %}
     <h1>Логин</h1>
+    <p style="color: red;">{{ form.non_field_errors }}</p>
+    <form action="{% url 'login' %}" method="post">
+        {% csrf_token %}
+        {% for f in form %}
+            <p><label for="{{ f.id_for_lable }}">{{ f.label }}: </label>{{ f }}</p>
+            <div style="color: red;">{{ f.errors }}</div>
+        {% endfor %}
+        <button type="submit">Войти</button>
+
+    </form>
 {% endblock %}

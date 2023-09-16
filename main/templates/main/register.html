@@ -1,5 +1,13 @@
 {% extends "main/layout.html" %}
 
 {% block body %}
-    <h1>Регистрация</h1>
+    <p style="color: red;">{{ form.non_field_errors }}</p>
+    <form action="{% url 'register' %}" method="post">
+        {% csrf_token %}
+        {% for f in form %}
+            <p><label for="{{ f.id_for_lable }}">{{ f.label }}: </label>{{ f }}</p>
+            <div style="color: red;">{{ f.errors }}</div>
+        {% endfor %}
+        <button type="submit">Зарегестрироваться</button>
+    </form>
 {% endblock %}

@@ -1,25 +1,56 @@
 from django.http import HttpResponse
-from django.shortcuts import render
-from .models import Task
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth import authenticate
+from django.contrib.auth import login as auth_login
+from django.contrib.auth import logout
+from django.shortcuts import redirect, render
+from .models import *
+from .forms import *
 
 
 navbar = [
     {"title":"Главная страница", "url_name": "index"},
     {"title":"Логин", "url_name": "login"},
-    {"title":"Регистрация", "url_name": "register"}
+    {"title":"Регистрация", "url_name": "register"},
+    {"title": "Выйти", "url_name": "logout_user"}
 ]
 
 
 def index(request):
-    context = {
-        "navbar": navbar,
-        "title": "Главная страница"
-    }
-    return render(request, "main/index.html", context=context)
+    if request.user.is_authenticated:
+        form = AddTaskForm()
+        if request.method == "POST":
+            form = AddTaskForm(request.POST)
+            if form.is_valid():
+                task = form.save(commit=False)
+                task.user = request.user
+                form.save()
+                return redirect("index")
+            
+        context = {
+            "form": form,
+            "navbar": navbar,
+            "title": "Главная страница"
+        }
+        return render(request, "main/index.html", context=context)
+    else:
+        return redirect("login")
 
 
 def login(request):
+    if request.user.is_authenticated:
+        return redirect("index")
+    
+    if request.method == "POST":
+        form = LoginUserForm(data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            auth_login(request, user)
+            return redirect("index")
+    else:
+        form = LoginUserForm()
     context = {
+        "form": form,
         "navbar": navbar,
         "title": "Логин"
     }
@@ -27,7 +58,19 @@ def login(request):
 
 
 def register(request):
+    if request.user.is_authenticated:
+        return redirect("index")
+    
+    if request.method == "POST":
+        form = RegisterUserForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("login")
+    else:
+        form = RegisterUserForm()
+    
     context = {
+        "form": form,
         "navbar": navbar,
         "title": "Регистрация"
     }
@@ -42,3 +85,8 @@ def task(request, task_id):
         "title": "Задание",
     }
     return render(request, "main/task.html", context=context)
+
+
+def logout_user(request):
+    logout(request)
+    return redirect("index")
