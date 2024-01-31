@@ -3,10 +3,10 @@ from .models import Task
 
 
 class MainAdmin(admin.ModelAdmin):
-    list_display = ("id", "name", "description")
+    list_display = ("id", "name", "description", "is_completed")
     list_display_links = ("id",)
     search_fields = ("name", "description")
-    list_editable = ("name", "description")
+    list_editable = ("name", "description", "is_completed")
     list_filter = ("name", "description")
 
 

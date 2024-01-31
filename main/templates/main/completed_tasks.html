@@ -1,0 +1,7 @@
+{% extends "main/layout.html" %}
+{% load main_tags %}
+
+{% block body %}
+    <h1>Завершенные задания</h1>
+    {% show_user_tasks request True %}
+{% endblock %}

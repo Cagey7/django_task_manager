@@ -4,4 +4,10 @@
         <p>Название задания: {{ task.name }}</p>
     </a>
     <p>Описание задания: {{ task.description }}</p>
+    {% if not is_completed %}
+    <form action="{% url 'task_completed' %}" method="post">
+        {% csrf_token %}
+        <button name="task_id" type="submit" value="{{ task.id }}">Задание выполнено</button>
+    </form>
+    {% endif %}
 {% endfor %}

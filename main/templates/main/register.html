@@ -1,6 +1,7 @@
 {% extends "main/layout.html" %}
 
 {% block body %}
+    <h1>Регистрация</h1>
     <p style="color: red;">{{ form.non_field_errors }}</p>
     <form action="{% url 'register' %}" method="post">
         {% csrf_token %}

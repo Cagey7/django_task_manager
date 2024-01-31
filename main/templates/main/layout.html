@@ -1,13 +1,17 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link type="text/css" rel="stylesheet" href="{% static 'main/css/styles.css'%}">
     <title>{{ title }}</title>
 </head>
 <body>
     {% if request.user.is_authenticated %}
         <a href="{% url 'index' %}"><li>Главная страница</li></a>
+        <a href="{% url 'completed_tasks' %}"><li>Выполненные задания</li></a>
         <p>Привет, {{ user.username }}</p>
         <a href="{% url 'logout_user' %}"><li>Выйти</li></a>
     {% else %}

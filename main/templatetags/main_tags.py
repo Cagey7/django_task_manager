@@ -16,11 +16,10 @@ def show_tasks(sort=None):
         tasks = Task.objects.all()
     else:
         tasks = Task.objects.order_by(sort)
-    
     return {"tasks": tasks}
 
 
 @register.inclusion_tag("main/tasks_list.html")
-def show_user_tasks(request):
-    tasks = Task.objects.filter(user=request.user)
-    return {"tasks": tasks}
+def show_user_tasks(request, is_completed):
+    tasks = Task.objects.filter(user=request.user, is_completed=is_completed)
+    return {"is_completed": is_completed, "tasks": tasks}

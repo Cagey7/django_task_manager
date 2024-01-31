@@ -8,6 +8,7 @@ class Task(models.Model):
     name = models.CharField(max_length=128, verbose_name="Название")
     description = models.CharField(max_length=1024, verbose_name="Описание")
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, null=True)
+    is_completed = models.BooleanField(default=False)
 
     
 

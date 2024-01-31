@@ -12,7 +12,8 @@ navbar = [
     {"title":"Главная страница", "url_name": "index"},
     {"title":"Логин", "url_name": "login"},
     {"title":"Регистрация", "url_name": "register"},
-    {"title": "Выйти", "url_name": "logout_user"}
+    {"title":"Выполненные задания", "url_name": "completed_tasks"},
+    {"title":"Выйти", "url_name": "logout_user"}
 ]
 
 
@@ -30,6 +31,7 @@ def index(request):
         context = {
             "form": form,
             "navbar": navbar,
+            "is_completed": False,
             "title": "Главная страница"
         }
         return render(request, "main/index.html", context=context)
@@ -86,6 +88,21 @@ def task(request, task_id):
     }
     return render(request, "main/task.html", context=context)
 
+
+def task_completed(request):
+    task = Task.objects.get(pk=request.POST.get('task_id'))
+    task.is_completed = True
+    task.save()
+    return redirect("index")
+
+
+def completed_tasks(request):
+    context = {
+        "navbar": navbar,
+        "is_completed": True,
+        "title": "Выполненные задания"
+    }
+    return render(request, "main/completed_tasks.html", context=context)
 
 def logout_user(request):
     logout(request)

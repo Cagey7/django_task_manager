@@ -3,4 +3,8 @@
 {% block body %}
     <h1>{{ task.name }}</h1>
     <h2>{{ task.description }}</h2>
+    <form action="{% url 'task_completed' %}" method="post">
+        {% csrf_token %}
+        <button name="task_id" type="submit" value="{{ task.id }}">Задание выполнено</button>
+    </form>
 {% endblock %}
